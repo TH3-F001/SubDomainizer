@@ -16,7 +16,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'subdomainizer = subdomainizer:main',
+            'subdomainizer = subdomainizer.subdomainizer:main',
         ],
     },
 )
