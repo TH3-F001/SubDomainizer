@@ -45,7 +45,7 @@ cd SubDomainizer
 3. Install the requirements:
 
 ```
-pip3 install -r requirements.txt
+pipx install .
 ```
 4. Enjoy the Tool.
 
