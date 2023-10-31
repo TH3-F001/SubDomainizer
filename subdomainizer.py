@@ -682,9 +682,7 @@ def printlogo():
     """
     return termcolor.colored(logo(), color='red', attrs=['bold'])
 
-
-if __name__ == "__main__":
-
+def main():
     domainSet = set()
     compiledRegexCloud = pre_compiled_cloud_regex()
     compiledRegexSecretList = pre_compiled_secret_regex()
@@ -752,7 +750,7 @@ if __name__ == "__main__":
                 if precompiled_domains_regex:
                     for subdomain in precompiled_domains_regex.findall(str(data.replace('\n', ' '))):
                         finalset.add(subdomain)
-        
+
         else:
             argerror(url, listfile)
             if isGit:
@@ -763,7 +761,8 @@ if __name__ == "__main__":
                     for i in urllist:
                         compiledRegexDomain = pre_compiled_domain_regex(i)
                         domainSet.add(str(getDomain(str(i))))
-                        print(termcolor.colored("Extracting data from internal and external js for url:", color='blue', attrs=['bold']))
+                        print(termcolor.colored("Extracting data from internal and external js for url:", color='blue',
+                                                attrs=['bold']))
                         print(termcolor.colored(i, color='red', attrs=['bold']))
                         try:
                             try:
@@ -774,9 +773,9 @@ if __name__ == "__main__":
                         except requests.exceptions.InvalidSchema:
                             print("Invalid Schema Provided!")
                             pass
-                        
-                        new_final_dict.clear() #clear data of dict as we check new url after this.
-                        
+
+                        new_final_dict.clear()  # clear data of dict as we check new url after this.
+
             else:
                 try:
                     try:
@@ -804,7 +803,8 @@ if __name__ == "__main__":
                         termcolor.colored('Finding Subdomains and secrets from Github..Please wait...', color='yellow',
                                           attrs=['bold']))
                     print(termcolor.colored(
-                        'Searching in github for : ' + termcolor.colored(item, color='green', attrs=['bold']), color='blue', attrs=['bold']))
+                        'Searching in github for : ' + termcolor.colored(item, color='green', attrs=['bold']),
+                        color='blue', attrs=['bold']))
 
                     gitThread = ThreadPool(8)
                     contentApiURLs = getUrlsFromData(gitToken, str(item))
@@ -825,7 +825,8 @@ if __name__ == "__main__":
         print(termcolor.colored("\nKeyboard Interrupt. Exiting...\n", color='red', attrs=['bold']))
         sys.exit(1)
     except FileNotFoundError:
-        print(termcolor.colored("\nFile Not found, Please check filename. Exiting...\n", color='yellow', attrs=['bold']))
+        print(
+            termcolor.colored("\nFile Not found, Please check filename. Exiting...\n", color='yellow', attrs=['bold']))
         sys.exit(1)
 
     print(termcolor.colored("Got all the important, printing and/or saving...\n", color='blue', attrs=['bold']))
@@ -836,7 +837,8 @@ if __name__ == "__main__":
 
     if cloudop:
         print(
-            termcolor.colored("\nWriting all the cloud services URL's to given file...", color='yellow', attrs=['bold']))
+            termcolor.colored("\nWriting all the cloud services URL's to given file...", color='yellow',
+                              attrs=['bold']))
         savecloudresults()
         print(
             termcolor.colored("Written cloud services URL's in file: ", color='red', attrs=['bold']) + cloudop)
@@ -845,9 +847,8 @@ if __name__ == "__main__":
         print(termcolor.colored("\nWriting all the secrets to given file...", color='yellow', attrs=['bold']))
         savesecretsresults()
         print(termcolor.colored("Written secrets in file: ", color='red', attrs=['bold']) + secretop)
-    
-    print(termcolor.colored('_' * 60, color='white', attrs=['bold']))
 
+    print(termcolor.colored('_' * 60, color='white', attrs=['bold']))
 
     if finalset:
         print(termcolor.colored("\nGot some subdomains...", color='yellow', attrs=['bold']))
@@ -865,14 +866,15 @@ if __name__ == "__main__":
     if secret_dict:
         print(termcolor.colored('_' * 60, color='white', attrs=['bold']))
         print(termcolor.colored("\nFound some secrets(might be false positive)...", color='yellow', attrs=['bold']))
-                                
+
         print(termcolor.colored('Total Possible Secrets: ' +
-                                str(sum(len(sec_lst) for sec_lst in secret_dict.values())), color='red', attrs=['bold']))
+                                str(sum(len(sec_lst) for sec_lst in secret_dict.values())), color='red',
+                                attrs=['bold']))
         for file_url, secrets in secret_dict.items():
             for secret in set(secrets):
                 print(termcolor.colored(secret, color='green', attrs=['bold']),
                       termcolor.colored("| " + file_url, color='yellow', attrs=['bold']))
-    
+
     if isGit and github_secrets:
         print(termcolor.colored('_' * 60, color='white', attrs=['bold']))
         print(termcolor.colored("\nWriting github secrets to the given file...", color='yellow', attrs=['bold']))
@@ -884,7 +886,8 @@ if __name__ == "__main__":
 
     if is_san in ("same", "all") and url and not folderName:
         print(termcolor.colored('_' * 60, color='white', attrs=['bold']))
-        print(termcolor.colored("\nFinding additional subdomains using Subject Alternative Names(SANs)...\n", color='yellow', attrs=['bold']))
+        print(termcolor.colored("\nFinding additional subdomains using Subject Alternative Names(SANs)...\n",
+                                color='yellow', attrs=['bold']))
         nothing_found_flag = True
         context = ssl.create_default_context()
         context.check_hostname = False
@@ -934,3 +937,8 @@ if __name__ == "__main__":
             print(termcolor.colored("No SANs found.", color='green', attrs=['bold']))
 
     print(termcolor.colored('\n' + '_' * 23 + 'End of Results' + '_' * 23 + '\n', color='white', attrs=['bold']))
+
+
+if __name__ == "__main__":
+    main()
+
